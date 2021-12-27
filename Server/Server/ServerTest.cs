@@ -34,29 +34,37 @@ class MyTcpListener
                 // You could also use server.AcceptSocket() here.
                 TcpClient client = server.AcceptTcpClient();
                 Console.WriteLine("Connected!");
-
+                
+                
                 data = null;
 
                 // Get a stream object for reading and writing
                 NetworkStream stream = client.GetStream();
-
+                String clientName = "";
+                String serverName = "C# Server";
+                byte[] nameBytes = System.Text.Encoding.ASCII.GetBytes(serverName);
+                stream.Write(nameBytes, 0, nameBytes.Length);
                 int i;
-
+                
                 // Loop to receive all the data sent by the client.
                 while((i = stream.Read(bytes, 0, bytes.Length))!=0)
                 {
                     // Translate data bytes to a ASCII string.
                     data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
-                    Console.WriteLine("Received: {0}", data);
+                    if (data.Contains("!NAME!"))
+                    {
+                        clientName = data.Remove(0, 6);
+                    }
+                    Console.WriteLine("{0}: {1}", clientName, data);
 
-                    // Process the data sent by the client.
-                    data = data.ToUpper();
-
-                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+                    // Process the data sent by the client
+                    Console.Write("{0}:", serverName);
+                    String strMsg = Console.ReadLine();
+                    byte[] msg = System.Text.Encoding.ASCII.GetBytes(strMsg);
 
                     // Send back a response.
                     stream.Write(msg, 0, msg.Length);
-                    Console.WriteLine("Sent: {0}", data);
+                    
                 }
 
                 // Shutdown and end connection

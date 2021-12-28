@@ -1,4 +1,4 @@
 # PythonCsNetworkingTest
 A c# and python networking test. 
 
-Python client will send C# server a lowercase string, and c# server will respond by captilizing the string. 
+The goal of this project is to get more familiar with packets and basic networking, as well as interconnectivity of two languages. Addtionally, I will try and learn Async operations for C# and ayncio/multiproccessing/threading for Python. 
